@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.inputs {
+  @apply border h-9 rounded-md mb-4 p-2;
+}
