@@ -64,7 +64,7 @@ export const UserForm = () => {
       if (hobby && checked) {
         setFormData((form) => ({
           ...form,
-          hobbies: updatedArray,
+          hobbies: [...form.hobbies, hobby],
         }));
       } else {
         updatedArray = formData.hobbies.filter((item) => item !== hobby);
@@ -178,19 +178,6 @@ export const UserForm = () => {
                   type="checkbox"
                   name="hobbies"
                   checked={formData.hobbies?.includes(hobby)}
-                  // onChange={({ currentTarget: { checked } }) => {
-                  //   if (checked) {
-                  //     setFormData((form) => ({
-                  //       ...form,
-                  //       hobbies: [...form.hobbies, hobby],
-                  //     }));
-                  //   } else {
-                  //     setFormData((form) => ({
-                  //       ...form,
-                  //       hobbies: form.hobbies.filter((item) => item !== hobby),
-                  //     }));
-                  //   }
-                  // }}
                   onChange={(event) => handleChange(event, hobby)}
                 />
 

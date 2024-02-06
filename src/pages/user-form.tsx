@@ -39,10 +39,7 @@ export const UserForm = () => {
 
   //handleChange function
   //currentTarget contains the properties needed needed
-  const handleChange = (
-    { currentTarget }: ChangeEvent<any>,
-    hobby?: string
-  ) => {
+  const handleChange = ({ currentTarget }: ChangeEvent<any>) => {
     const { name, value, files, type, checked } = currentTarget;
     console.log();
     if (name === "photo") {
