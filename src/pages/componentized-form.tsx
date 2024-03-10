@@ -21,23 +21,89 @@ export const UserForm = () => {
   ];
 
   type FormValuesProps = {
-    name?: string;
-    age?: number;
+    name: string;
+    age: number;
     photo?: File;
-    gender?: string;
-    maritalStatus?: string;
+    gender: string;
+    maritalStatus: string;
     isConsenting?: boolean;
     hobbies: string[];
   };
 
   const [formData, setFormData] = useState<FormValuesProps>({
+    name: "",
+    age: 0,
+    gender: "",
+    maritalStatus: "",
     isConsenting: false,
     hobbies: [],
   });
 
+  const [errors, setErrors] = useState({
+    errorText: "",
+    username: false,
+    age: false,
+    gender: false,
+    maritalStatus: false,
+    hobbies: false,
+  });
+
   //submit function
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(errors);
+    if (formData.name === "") {
+      setErrors((prev) => ({
+        ...prev,
+        username: true,
+        errorText: "Username required",
+      }));
+      return;
+    } else if (formData.name.length <= 2) {
+      setErrors((prev) => ({
+        ...prev,
+        username: true,
+        errorText: "Username shouldn't be less than 2 characters",
+      }));
+      return;
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        username: false,
+        errorText: "",
+      }));
+    }
+
+    if (formData.age === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        age: true,
+      }));
+      return;
+    }
+
+    if (formData.gender === "") {
+      setErrors((prev) => ({
+        ...prev,
+        gender: true,
+      }));
+      return;
+    }
+    if (formData.maritalStatus === "") {
+      setErrors((prev) => ({
+        ...prev,
+        maritalStatus: true,
+      }));
+      return;
+    }
+    if (formData.hobbies.length === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        hobbies: true,
+      }));
+      return;
+    }
+
     console.log(formData);
     // alert("Details successfully submitted");
   };
@@ -97,6 +163,9 @@ export const UserForm = () => {
           value={formData.name || ""}
           handleChange={handleChange}
         />
+        {errors.username && (
+          <span className="text-red-500 mb-3">{errors.errorText}</span>
+        )}
 
         <Input
           label="Age"
@@ -105,6 +174,7 @@ export const UserForm = () => {
           value={formData.age || ""}
           handleChange={handleChange}
         />
+        {errors.age && <span className="text-red-500 mb-3">Age required</span>}
 
         <PhotoInput
           label="Photo"
@@ -125,6 +195,9 @@ export const UserForm = () => {
           ]}
           handleChange={handleChange}
         />
+        {errors.gender && (
+          <span className="text-red-500 mb-3">Please select your gender</span>
+        )}
 
         <RadioInput
           title="Marital Status"
@@ -132,6 +205,11 @@ export const UserForm = () => {
           handleChange={handleChange}
           options={["Single", "Married", "Divorced"]}
         />
+        {errors.maritalStatus && (
+          <span className="text-red-500 mb-3">
+            Please select your marital status
+          </span>
+        )}
 
         <Checkbox
           type="multi"
@@ -139,6 +217,11 @@ export const UserForm = () => {
           options={hobbies}
           handleChange={handleChange}
         />
+        {errors.hobbies && (
+          <span className="text-red-500 mb-3">
+            Please select at least one hobby
+          </span>
+        )}
 
         <Checkbox
           type="single"
